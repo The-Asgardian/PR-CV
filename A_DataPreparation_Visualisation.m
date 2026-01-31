@@ -42,8 +42,8 @@ for i = 1:length(trialFiles)
     d = load(f);
     if ~isfield(d, 'ft_values'), continue; end
     ft = d.ft_values;
-    normalForce = ft(:, 3);
-    [pks, locs] = findpeaks(normalForce, 'MinPeakHeight', max(normalForce)*0.5, 'MinPeakDistance', 50);
+    normalForce = -ft(:, 3); %Z direction reversed
+    [pks, locs] = findpeaks(normalForce, 'MinPeakHeight', max(normalForce)*0.85, 'MinPeakDistance', 50);
     fn_force = 'sensor_matrices_force'; if ~isfield(d, fn_force), fn_force = 'sensor_matricies_force'; end
     fn_disp = 'sensor_matrices_displacement'; if ~isfield(d, fn_disp), fn_disp = 'sensor_matricies_displacement'; end
     sensor_matrices_force = d.(fn_force)(locs, :);
