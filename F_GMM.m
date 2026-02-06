@@ -2,11 +2,11 @@ clc; clear;
 scriptDir = fileparts(mfilename('fullpath'));
 dataDir = fullfile(scriptDir, 'PR_CW_mat');
 
-f = fullfile(dataDir, 'cylinder_papillarray_single_contact.mat');
+f = fullfile(dataDir, 'hexagon_papillarray_single_contact.mat');
 dPLA = load(f);
-f = fullfile(dataDir, 'cylinder_TPU_papillarray_single_contact.mat');
+f = fullfile(dataDir, 'hexagon_TPU_papillarray_single_contact.mat');
 dTPU = load(f);
-f = fullfile(dataDir, 'cylinder_rubber_papillarray_single_contact.mat');
+f = fullfile(dataDir, 'hexagon_rubber_papillarray_single_contact.mat');
 dRubber = load(f);
 
 fn_disp = 'sensor_matrices_displacement';
@@ -19,6 +19,8 @@ n3 = size(dRubber.(fn_disp), 1);
 X_disp = [dPLA.(fn_disp)(:, [13, 15]); ...
           dTPU.(fn_disp)(:, [13, 15]); ...
           dRubber.(fn_disp)(:, [13, 15])];
+
+X_disp = (X_disp - mean(X_disp)) ./ std(X_disp);
 
 labels = [ones(n1,1); 2*ones(n2,1); 3*ones(n3,1)];
 
@@ -39,7 +41,12 @@ grid on;
 % (b) Gaussian Mixture Model
 %
 
-gmModel = fitgmdist(X_disp, 3, 'RegularizationValue', 0.001, 'Options', statset('MaxIter', 500));
+gmModel = fitgmdist(X_disp, 3, ...
+    'CovarianceType','full', ...
+    'SharedCovariance',false, ...
+    'RegularizationValue',5e-3, ...
+    'Replicates',1, ...
+    'Options', statset('MaxIter',2000));
 
 pad = 0.13;
 
