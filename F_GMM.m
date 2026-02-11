@@ -33,7 +33,7 @@ gscatter(X_disp(:,1), X_disp(:,2), labels, ['r', 'g', 'b'], 'os^');
 
 xlabel('Displacement D_x (mm)');
 ylabel('Displacement D_z (mm)');
-title('2D Displacement (Cylinder Objects)');
+title('2D Displacement (Hexagon)');
 legend({'PLA', 'TPU', 'Rubber'}, 'Location', 'northeast');
 grid on;
 
@@ -73,8 +73,8 @@ h = gscatter(X_disp(:,1), X_disp(:,2), labels, ['r', 'g', 'b'], 'os^', 6);
 
 xlabel('Displacement D_x (mm)');
 ylabel('Displacement D_z (mm)');
-title('GMM 3-Component Fit with Probability Contours');
-legend({'PLA', 'TPU', 'Rubber'}, 'Location', 'northeast');
+title('GMM with Probability Contours');
+legend({'Countour', 'PLA', 'TPU', 'Rubber'}, 'Location', 'northeast');
 grid on;
 hold off;
 
@@ -95,7 +95,7 @@ contour3(X_grid, Y_grid, Z, 12, 'k', 'LineWidth', 0.8);
 xlabel('Displacement D_x (mm)');
 ylabel('Displacement D_z (mm)');
 zlabel('p(D_x, D_z)');
-title('3D Surface of 3-Component GMM PDF');
+title('Surf Plot GMM PDF');
 
 view(45, 30);
 camproj perspective;
@@ -119,7 +119,7 @@ gscatter(X_disp(:,1), X_disp(:,2), idx, 'rgb', 'o^s', 6);
 
 xlabel('Displacement D_x (mm)');
 ylabel('Displacement D_z (mm)');
-title('Hard GMM Cluster Assignments (MAP)');
+title('Hard GMM Cluster Assignments');
 legend({'Density contours','Cluster 1','Cluster 2','Cluster 3'}, 'Location','best');
 grid on; box on;
 hold off;

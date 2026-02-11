@@ -29,14 +29,14 @@ scatter3(X_scaled(labels==2,1), X_scaled(labels==2,2), X_scaled(labels==2,3), 'g
 scatter3(X_scaled(labels==3,1), X_scaled(labels==3,2), X_scaled(labels==3,3), 'b', 'filled');
 
 xlabel('D_x (mm)'); ylabel('D_y (mm)'); zlabel('D_z (mm)');
-title('Central Papilla Displacement: Oblong Objects');
+title('Central Papilla Displacement: Hexagon ');
 legend('PLA', 'TPU', 'Rubber'); grid on; view(3);
 
 %
 % (b) K-Means Clustering (Squared Euclidian Distance)
 %
 
-idx_euclid = kmeans(X_scaled, 3, 'Replicates', 5);
+[idx_euclid, C] = kmeans(X_scaled, 3, 'Replicates', 5);
 
 figure;
 shapes = ['o', 's', '^'];
@@ -51,16 +51,18 @@ for m = 1:3 % Real Materials
         end
     end
 end
+
+plot3(C(:,1), C(:,2), C(:,3), 'kx', 'LineWidth', 3, 'MarkerSize', 15);
 title('K-means Clustering (Euclidean Distance)');
 xlabel('D_x'); ylabel('D_y'); zlabel('D_z');
-legend('Material: PLA', 'Material: TPU', 'Material: Rubber');
+legend('Cluster 1', 'Cluster 2', 'Cluster 3');
 view(3); grid on;
 
 %
 % (c) K-Means Clustering (Manhattan Distance)
 %
 
-idx_city = kmeans(X_scaled, 3, 'Distance', 'cityblock', 'Replicates', 5);
+[idx_city, C] = kmeans(X_scaled, 3, 'Distance', 'cityblock', 'Replicates', 5);
 
 figure;
 for m = 1:3 
@@ -72,7 +74,10 @@ for m = 1:3
         end
     end
 end
+plot3(C(:,1), C(:,2), C(:,3), 'kx', 'LineWidth', 3, 'MarkerSize', 15);
 title('K-means Clustering (Manhattan)');
+xlabel('D_x'); ylabel('D_y'); zlabel('D_z');
+legend('Cluster 1', 'Cluster 2', 'Cluster 3');
 view(3); grid on;
 
 %
